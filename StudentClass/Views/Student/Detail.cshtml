@@ -1,0 +1,56 @@
+﻿@model StudentClass.Models.Student
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "_layout";
+}
+<div class="container ">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis" asp-action="Index" asp-controller="Home">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="visually-hidden">Home</span>
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" asp-controller="Student" asp-action="Index">Student List</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Detail
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="w-50 box">
+<h2>Detail</h2>
+<dl class="row">
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+
+    <dt class="col-sm-3">Date of birth</dt>
+    <dd class="col-sm-9">
+        @Model.Dob
+    </dd>
+
+    <dt class="col-sm-3">PhoneNumber</dt>
+    <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+    <dt class="col-sm-3 text-truncate">Address</dt>
+    <dd class="col-sm-9">@Model.Address</dd>
+
+    <dt class="col-sm-3">Class</dt>
+    <dd class="col-sm-9">
+        @foreach (var item in Model.StudentInClasses)
+        {
+                <a asp-action="Update" asp-controller="Class" asp-route-id="@item.Class.Id">@item.Class.Name;</a>
+             
+            
+        }
+    </dd>
+
+        </dl>
+    <div class="mt-2 d-flex justify-content-between">
+        <div><a asp-action="Index" asp-controller="Student"><i class="fa-solid fa-arrow-left"></i> Back to Student list</a></div>
+        
+    </div>
+</div>

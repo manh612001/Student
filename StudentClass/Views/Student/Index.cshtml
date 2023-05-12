@@ -1,0 +1,38 @@
+﻿@model IEnumerable<StudentClass.ViewModels.ListStudentViewModel>
+@{
+    ViewData["Title"] = "Student List";
+    Layout = "_layout";
+}
+<a asp-controller="Student" asp-action="Add"><button class="btn btn-sec mb-2">Create</button></a>
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            
+            <th>Class</th>
+            <th class="w-25">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                
+                <td>
+                    @foreach (var classes in item.Classes)
+                    {
+                        <a asp-action="Update" asp-controller="Class" asp-route-id="@classes.Id" >@classes.Name;</a>
+                    }
+                </td>
+
+                <td>
+                    <a asp-controller="Student" asp-action="Detail" asp-route-id="@item.Id"><button class="btn btn-sec">Detail</button></a>
+                    <a asp-controller="Student" asp-action="Edit" asp-route-id="@item.Id"><button class="btn btn-primary">Edit</button></a>
+                    <a asp-controller="Student" asp-action="Delete" asp-route-id="@item.Id"><button class="btn btn-danger-cus">Delete</button></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

@@ -1,0 +1,77 @@
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+.box-login {
+    /*border:1px solid rgba(0,0,0,.125);
+    border-radius: 5px;
+    margin:auto;*/
+    width:30%;
+}
+.box-signup{
+    width:40%;
+}
+.card,.btn {
+    box-shadow: 0 3px 3px 0 grey;
+}
+
+.btn-sec {
+    color:white;
+    background: linear-gradient(to right, #74b9ff, #0984e3);
+
+}
+.btn-danger-cus {
+    color: white;
+    background: linear-gradient(to right, #e74c3c, #c0392b);
+}
+#navbar-brand{
+    font-size:26px;
+}
+
+
+.box {
+    margin:auto;
+    padding: 3rem;
+    border: 1px solid gray;
+    border-radius: 10px;
+    box-shadow: 0 3px 3px 0 grey;
+}
+
+.card-body {
+    border-radius: 1rem;
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0 3px 3px 0 grey;
+    background-color: white;
+}
+
+#bg-account {
+    background: linear-gradient(120deg, #0984e3,#74b9ff);
+}
+.box-signup label{
+    float:left;
+}
+#back-login{
+    line-height:inherit;
+}
+input:invalid{
+    border-color:red;
+}
+.form-check{
+    padding:0;
+    
+}

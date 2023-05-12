@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Add Student";
+    Layout = "_layout";
+}
+@model StudentClass.ViewModels.AddStudentViewModel
+<div class="container ">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis" asp-action="Index" asp-controller="Home">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="visually-hidden">Home</span>
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" asp-controller="Student" asp-action="Index">Student List</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Add
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="w-50 box">
+    <form class="w-40" asp-action="Add" method="post" id="form-addStudent">
+        <div class="text-center">
+            <h2 class="pb-10">Add new student</h2>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Name" class="w-40">UserName:<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" asp-for="Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Dob" class="w-40">Birth of Day:<span style="color:red;">*</span></label>
+            <input type="date" class="form-control" asp-for="Dob">
+            <span asp-validation-for="Dob" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="w-40">Phone Number:<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" asp-for="PhoneNumber">
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+
+
+        <div class="form-group">
+            <label asp-for="Address" class="w-40">Address:<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" asp-for="Address">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+
+
+
+
+        <div class="mt-2 d-flex justify-content-between">
+            <div><a asp-action="Index" asp-controller="Student"><i class="fa-solid fa-arrow-left"></i> Back to Student list</a></div>
+            <button class="btn btn-sec " id="btnSave">Save</button>
+        </div>
+    </form>
+
+</div>
+

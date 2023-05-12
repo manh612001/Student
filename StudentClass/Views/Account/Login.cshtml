@@ -1,0 +1,72 @@
+﻿@model StudentClass.ViewModels.LoginViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StudentClass.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body id="bg-account">
+    <div class="bt-login">
+        <div>
+            @if (TempData["alert"] != null)
+            {
+                <div class="alert @TempData["alert"]">@TempData["msg"]</div>
+            }
+        </div>
+        <div class="vh-100 d-flex justify-content-center align-items-center bg-login">
+            <div class="box-login">
+                <div class="card-body p-5 text-center">
+
+                    <form asp-action="Login" asp-controller="Account" method="post" id="form-login">
+
+                        <h1 class="h2 mb-3 fw-normal">Please sign in</h1>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="UserName" class="form-control" id="floatingInput" name="UserName" placeholder="name@example.com">
+                            <label for="floatingInput">UserName</label>
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-2 ">
+                            <input asp-for="Password" type="password" name="Password" class="form-control inputPassword" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" id="show-password"> Show Password
+                            </label>
+                        </div>
+                        <div class="text-center mt-3 mb-3">
+                            <span>Don't have an account?</span>
+                            <a asp-action="SignUp">Sign Up</a>
+                        </div>
+
+                        <button class="w-100 btn btn-lg btn-sec" type="submit" id="btn-Login" data-bs-toggle="modal" data-bs-target="#myModal">Sign in</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="myModal">
+        <div class="modal-dialog d-flex justify-content-center align-content-center">
+            <div><img src="~/image/load.gif" width="50px;" /></div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+</body>
+</html>
+
+

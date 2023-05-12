@@ -1,0 +1,39 @@
+﻿@model StudentClass.ViewModels.EditClassViewModel
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_layout";
+}
+<div class="container ">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis" asp-action="Index" asp-controller="Home">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="visually-hidden">Home</span>
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" asp-controller="Class" asp-action="Index">Class List</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Delete
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="box w-50">
+    <h2>Are you sure you want to delete?</h2>
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.ClassName</dd>
+    </dl>
+
+    <form asp-action="DeleteCF" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="d-flex justify-content-between">
+            <div id="back-login"><a asp-action="Index" asp-controller="Class"><i class="fa-solid fa-arrow-left"></i> Back to Class list</a></div>
+            <button class="btn btn-danger  w-25 btn-lg" type="submit">Delete</button>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,80 @@
+﻿@model StudentClass.ViewModels.RegistrationViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignUp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StudentClass.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+</head>
+<body id="bg-account">
+    <div>
+        @if (TempData["alert"] != null)
+        {
+            <div class="alert @TempData["alert"]">
+                @TempData["msg"]
+            </div>
+        }
+    </div>
+    <div class="vh-100 d-flex justify-content-center align-items-center bg-login">
+        <div class="box-signup">
+            <div class="card-body p-5 text-center">
+               
+
+                <form asp-action="SignUp" asp-controller="Account" method="post">
+
+                    <h1 class="h3 mb-3 fw-normal">Registration</h1>
+
+                    <div class="form-floating mb-2">
+                        <input asp-for="UserName" class="form-control" id="floatingInput" placeholder="UserName" />
+                        <label for="floatingInput">UserName:<span style="color:red;">*</span></label>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input asp-for="Name" class="form-control" id="floatingPassword" placeholder="Name">
+                        <label for="floatingPassword">Name:<span style="color:red;">*</span></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input asp-for="Email" class="form-control" id="floatingPassword" placeholder="name@example.com">
+                        <label for="floatingPassword">Email:<span style="color:red;">*</span></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input asp-for="Password" type="password" class="form-control passwordS" id="floatingPassword" placeholder="name@example.com">
+                        <label for="floatingPassword">Password:<span style="color:red;">*</span></label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input asp-for="PasswordConfirm" type="password" class="form-control passwordS" id="floatingPassword" placeholder="name@example.com">
+                        <label for="floatingPassword">PasswordConfirm:<span style="color:red;">*</span></label>
+                        <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <label>
+                            <input type="checkbox" id="show-passwordS"> Show Password
+                        </label>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div id="back-login"><a asp-action="Login" asp-controller="Account"><i class="fa-solid fa-arrow-left"></i> Back to Login</a></div>
+                        <button class="btn btn-sec  w-25 btn-lg" type="submit">Save</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</body>
+</html>
+
