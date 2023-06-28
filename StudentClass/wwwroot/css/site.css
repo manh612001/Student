@@ -75,3 +75,20 @@ input:invalid{
     padding:0;
     
 }
+footer{
+    position:absolute;
+    bottom:0; 
+}
+#btnGoogle {
+    background-color: #dd4b39;
+    color:white;
+    text-transform:uppercase;
+    font-weight:500;
+}
+#btnFacebook {
+    margin-top: 10px;
+    background-color: #3b5998;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+}

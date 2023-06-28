@@ -18,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StudentClass\StudentClass.csproj" />
+    <ProjectReference Include="..\StudentClass.Infrastructure\StudentClass.Infrastructure.csproj" />
+    <ProjectReference Include="..\StudentClass\StudentClass.MVC.csproj" />
   </ItemGroup>
 
 </Project>

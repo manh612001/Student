@@ -1,4 +1,4 @@
-﻿@model StudentClass.ViewModels.AddClassViewModel
+﻿@model StudentClass.Application.ViewModels.ClassViewModel.CreateClass
 @{
     ViewData["Title"] = "Add Class";
     Layout = "_layout";
@@ -35,7 +35,14 @@
 
         <div class="form-group multi">
             <label>Student:<span style="color:red;">*</span></label>
-            <select class="form-control add-selectMutilStudent" multiple="multiple" asp-items="@ViewBag.SelectList" id="states" asp-for="StudentIds" style="width:100%;">
+            <select class="form-control js-example-basic-multiple" multiple="multiple" id="states" asp-for="StudentIds" style="width:100%;">
+                @if(Model.Students != null)
+                {
+                    foreach (var item in Model.Students)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
             </select>
             <span asp-validation-for="StudentIds" class="text-danger"></span>
         </div>

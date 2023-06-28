@@ -1,11 +1,11 @@
-﻿@model IEnumerable<StudentClass.ViewModels.ListClassStudentViewModel>
+﻿@model IEnumerable<StudentClass.Application.ViewModels.ClassViewModel.CreateClass>
 @{
     ViewData["Title"] = "Class List";
     Layout = "_layout";
 }
 
 <a asp-controller="Class" asp-action="Add"><button class="btn btn-sec mb-2">Create</button></a>
-<table id="example" class="display" style="width:100%">
+<table id="tableClass" class="display" style="width:100%">
     <thead>
         <tr>
             <th>Name</th>
@@ -14,24 +14,54 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.ClassName</td>
-                <td>
-                    @foreach(var student in item.StudentName)
-                    {
-                        <a asp-route-id ="@student.Id" asp-action="Detail" asp-controller="Student">@student.Name;</a>
-                    }
-                </td>
-                <td>
-                    
-                    <a asp-controller="Class" asp-action="Update" asp-route-id="@item.Id"><button class="btn btn-primary">Edit</button></a>
-                    <a asp-controller="Class" asp-action="Delete" asp-route-id="@item.Id"><button class="btn btn-danger-cus">Delete</button></a>
-                </td>
-            </tr>
-        }
+       
     </tbody>
 
 </table>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#tableClass").DataTable({
+                "paging": true,
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ordering":true,
+                "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+                
+                "ajax": {
+                    "url": "/Class/GetData/",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                
+                "columns": [
+                    { "data": "name", "name": "Name", "autoWidth": true },
+                    { "data": "students", "name": "Students", "autoWidth": true,
+                         "render": function (data, type, row) {
+                                 let result = '';
+                                 data.forEach((item) => {
+                                     result += `<a href="/Student/Edit/${item.id}">${item.name};</a>`;
+                                 });
+                                 return result
+                          },
+                          "sortable":false
+                    },
+                    {
+                        "data":"id",
+                        "render": function (data, row) 
+                        { 
+                            return `<a href='/Class/Update/${data}' class='btn btn-sec' >Edit</a>`+
+                                ` <a href='/Class/Delete/${data}' class='btn btn-danger-cus' >Delete</a>`;
+                            
+                        },
+                        "sortable":false
+                         
+                    }
+                ]
+                
+            });
+        });
+    </script>
+}

@@ -24,7 +24,7 @@ $(document).ready(function () {
 
     });
     $("input").focus(function () { $(this).select(); });
-    $('.alert').fadeOut(3000);
+    $('.alert').fadeOut(5000);
     $("#btn-Login").click(function () {
         $("#form-login input").prop('readonly', true);
     });
@@ -32,7 +32,6 @@ $(document).ready(function () {
         placeholder: "Student",
         tags: true,
         allowClear: true,
-
         width: 'resolve'
     })
     $('#example').DataTable();
@@ -75,6 +74,5 @@ $(document).ready(function () {
         /*$("#btn-Login").prop('disabled', true);*/
         console.log("login");
     })
-
-
+    
 });

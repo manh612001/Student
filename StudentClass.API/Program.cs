@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using StudentClass.Interfaces;
-using StudentClass.Models;
-using StudentClass.Service;
+using StudentClass.Application.Interfaces;
+using StudentClass.Domain;
+using StudentClass.Infrastructure.Data;
+using StudentClass.Infrastructure.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

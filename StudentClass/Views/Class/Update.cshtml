@@ -1,13 +1,8 @@
-﻿@model StudentClass.ViewModels.AddClassViewModel
+﻿@model StudentClass.Application.ViewModels.ClassViewModel.ClassDetail
 @{
     ViewData["Title"] = "Update";
     Layout = "_layout";
-    string ids = "";
-    foreach(var id in Model.StudentIds)
-    {
-        string i = Convert.ToString(id);
-        ids = ids+" "+i;
-    }
+
 }
 <div class="container ">
     <nav aria-label="breadcrumb">
@@ -32,7 +27,7 @@
         <div class="text-center">
             <h2 class="pb-10" id="formEdit">Edit</h2>
         </div>
-
+        <input type="hidden" value="@Model.Id"/>
         <div class="form-group">
             <label asp-for="Name" class="w-40" >Name</label>
             <input type="text" class="form-control" asp-for="Name" id="ClassName" data-name="@Model.Name">
@@ -41,7 +36,15 @@
 
         <div class="form-group">
             <label>Student</label>
-            <select class="form-control js-example-basic-multiple" multiple="multiple" asp-items="@ViewBag.SelectList" data-ids = "@ids" id="states" asp-for="StudentIds" style="width:100%;">
+            
+            <select class="form-control js-example-basic-multiple" multiple="multiple" data-ids="@Model.StudentIds" id="states" asp-for="StudentIds" style="width:100%;">
+                @if(Model.Students != null)
+                {
+                    foreach (var item in Model.Students)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
             </select>
         </div>
         <input type="hidden" asp-for="Id" />

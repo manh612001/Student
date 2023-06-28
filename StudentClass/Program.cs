@@ -1,31 +1,35 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using StudentClass.Interfaces;
-using StudentClass.Models;
-using StudentClass.Service;
+using StudentClass.Application.Interfaces;
+using StudentClass.Infrastructure.Data;
+using StudentClass.Infrastructure.Services;
+using StudentClass.Domain;
+using StudentClass.MVC.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DatabaseDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
-
-builder.Services.AddTransient<IStudentService, StudentService>();
-builder.Services.AddTransient<IAccountService, AccountService>();
-builder.Services.AddTransient<IClassService, ClassService>();
-
-builder.Services.AddTransient<IStudentService, StudentService>();
+builder.Services.AddAuthentication()
+.AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+})
+.AddFacebook(facebookOption =>
+{
+    facebookOption.AppId = configuration["Authentication:Facebook:AppId"];
+    facebookOption.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+});
+//TODO: fix addscope
+builder.Services.ConfigureAppService();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<DatabaseDbContext>()
     .AddDefaultTokenProviders();
-builder.Services.ConfigureApplicationCookie(options =>
-    options.LoginPath = "/Account/Login"
-);
-
 
 var app = builder.Build();
 

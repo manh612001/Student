@@ -1,4 +1,4 @@
-﻿@model StudentClass.ViewModels.ListClassViewModel
+﻿@model StudentClass.Application.ViewModels.ClassViewModel.ClassDetail
 
 @{
     ViewData["Title"] = "Detail";
@@ -26,19 +26,19 @@
     <h2>Detail</h2>
     <dl class="row">
         <dt class="col-sm-3">Name</dt>
-        <dd class="col-sm-9">@Model.ClassName</dd>
+        <dd class="col-sm-9">@Model.Name</dd>
 
         
 
         <dt class="col-sm-3">Class</dt>
         <dd class="col-sm-9">
-            @foreach (var item in Model.Students)
+            @if (Model.Students != null)
             {
-                <span>@item.Name</span>
-
-
+                @foreach (var item in Model.Students)
+                {
+                    <span>@item.Name</span>
+                }
             }
         </dd>
-
     </dl>
 </div>

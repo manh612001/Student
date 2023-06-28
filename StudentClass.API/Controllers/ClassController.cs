@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentClass.Interfaces;
-using StudentClass.ViewModels;
+using StudentClass.Application.Interfaces;
+using StudentClass.Application.ViewModels;
 
 namespace StudentClass.API.Controllers
 {
@@ -30,7 +30,7 @@ namespace StudentClass.API.Controllers
         }
         [HttpPost]
         
-        public async Task<IActionResult> Create(AddClassViewModel model)
+        public async Task<IActionResult> Create(ClassViewModel.CreateClass model)
         {
             if(ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace StudentClass.API.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace StudentClass.API.Controllers
         }
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update(AddClassViewModel model)
+        public async Task<IActionResult> Update(ClassViewModel.ClassDetail model)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace StudentClass.API.Controllers
         }
         [HttpGet]
         [Route("GetById/{id}")]
-        public async Task<IActionResult> GetById(int? id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {

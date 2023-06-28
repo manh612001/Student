@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentClass.Interfaces;
-using StudentClass.ViewModels;
+using StudentClass.Application.Interfaces;
+using StudentClass.Application.ViewModels;
 
 namespace StudentClass.API.Controllers
 {
@@ -19,23 +19,23 @@ namespace StudentClass.API.Controllers
         [HttpGet]
         [Route("StudentWithClass")]
         
-        public async Task<IActionResult> StudentWithClass()
-        {
-            try
-            {
-                var result = await _studentService.StudentWithClass();
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
+        //public async Task<IActionResult> StudentWithClass()
+        //{
+        //    try
+        //    {
+        //        var result = await _studentService.StudentWithClass();
+        //        return Ok(result);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e.Message);
                 
-            }
+        //    }
             
-        }
+        //}
         [HttpPost]
         
-        public async Task<IActionResult> Add(AddStudentViewModel model)
+        public async Task<IActionResult> Add(StudentViewModel.Student model)
         {
             if(ModelState.IsValid)
             {
@@ -55,7 +55,7 @@ namespace StudentClass.API.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetDetail(int? id)
+        public async Task<IActionResult> GetDetail(int id)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace StudentClass.API.Controllers
         }
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update(AddStudentViewModel model)
+        public async Task<IActionResult> Update(StudentViewModel.Student model)
         {
             if(ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace StudentClass.API.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (ModelState.IsValid)
             {

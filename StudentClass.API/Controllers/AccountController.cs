@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentClass.Interfaces;
-using StudentClass.ViewModels;
+using StudentClass.Application.Interfaces;
+using StudentClass.Application.ViewModels;
 
 namespace StudentClass.API.Controllers
 {
@@ -14,13 +14,14 @@ namespace StudentClass.API.Controllers
         {
             _accountService = accountService;
         }
+
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             try
             {
-               
+
                 return Ok(await _accountService.LoginAPI(model));
             }
             catch (Exception e)
@@ -28,15 +29,16 @@ namespace StudentClass.API.Controllers
 
                 return BadRequest(e.Message);
             }
-            
+
         }
+
         [HttpPost]
         [Route("SignUp")]
-        public async Task<IActionResult> SignUp(RegistrationViewModel model)
+        public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
             try
             {
-                await _accountService.Registration(model);
+                await _accountService.SignUp(model);
                 return Ok("Registration successfully");
             }
             catch (Exception e)
@@ -44,8 +46,5 @@ namespace StudentClass.API.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
-        
-
     }
 }

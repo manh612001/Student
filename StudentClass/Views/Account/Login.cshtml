@@ -1,4 +1,12 @@
-﻿@model StudentClass.ViewModels.LoginViewModel
+﻿@model StudentClass.Application.ViewModels.LoginViewModel
+@{
+    var alertType = "";
+    if (TempData["msg"] != null)
+    {
+        alertType = TempData["msg"]?.ToString()?.Split("!")[0];
+    }
+
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,13 +18,14 @@
     <link rel="stylesheet" href="~/StudentClass.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body id="bg-account">
     <div class="bt-login">
         <div>
-            @if (TempData["alert"] != null)
+            @if (TempData["msg"] != null)
             {
-                <div class="alert @TempData["alert"]">@TempData["msg"]</div>
+                <div class="alert alert-@alertType">@TempData["msg"]</div>
             }
         </div>
         <div class="vh-100 d-flex justify-content-center align-items-center bg-login">
@@ -26,7 +35,7 @@
                     <form asp-action="Login" asp-controller="Account" method="post" id="form-login">
 
                         <h1 class="h2 mb-3 fw-normal">Please sign in</h1>
-
+                        <input type="hidden" asp-for="ReturnUrl" />
                         <div class="form-floating mb-2">
                             <input asp-for="UserName" class="form-control" id="floatingInput" name="UserName" placeholder="name@example.com">
                             <label for="floatingInput">UserName</label>
@@ -45,11 +54,21 @@
                         </div>
                         <div class="text-center mt-3 mb-3">
                             <span>Don't have an account?</span>
-                            <a asp-action="SignUp">Sign Up</a>
+                             <a asp-action="SignUp">Sign Up</a>
                         </div>
 
                         <button class="w-100 btn btn-lg btn-sec" type="submit" id="btn-Login" data-bs-toggle="modal" data-bs-target="#myModal">Sign in</button>
-
+                    </form>
+                    <hr />
+                    @*<a href="signin-google"><button class="btn w-100" id="btnGoogle"><i class="fa-brands fa-google"></i>   Sign In With Google</button></a>
+                    <button class="btn w-100" id="btnFacebook"><i class="fa-brands fa-facebook"></i>   Sign In With Facebook</button>*@
+                    <form id="external-account"  asp-controller="Account" asp-action="ExternalLogin" method="post" class="form-horizontal">
+                        <div>
+                            <p> 
+                                <button type="submit" class="btn w-100" id="btnGoogle" name="provider" value="Google"><i class="fa-brands fa-google"></i>   Sign In With Google</button>
+                                <button type="submit" class="btn w-100" id="btnFacebook" name="provider" value="Facebook"><i class="fa-brands fa-facebook"></i>   Sign In With Facebook</button>
+                            </p>
+                        </div>
                     </form>
                 </div>
             </div>

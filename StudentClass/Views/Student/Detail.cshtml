@@ -1,4 +1,4 @@
-﻿@model StudentClass.Models.Student
+﻿@model StudentClass.Application.ViewModels.StudentViewModel.Student
 @{
     ViewData["Title"] = "Detail";
     Layout = "_layout";
@@ -37,20 +37,7 @@
 
     <dt class="col-sm-3 text-truncate">Address</dt>
     <dd class="col-sm-9">@Model.Address</dd>
-
-    <dt class="col-sm-3">Class</dt>
-    <dd class="col-sm-9">
-        @foreach (var item in Model.StudentInClasses)
-        {
-                <a asp-action="Update" asp-controller="Class" asp-route-id="@item.Class.Id">@item.Class.Name;</a>
-             
-            
-        }
-    </dd>
-
-        </dl>
     <div class="mt-2 d-flex justify-content-between">
         <div><a asp-action="Index" asp-controller="Student"><i class="fa-solid fa-arrow-left"></i> Back to Student list</a></div>
-        
     </div>
 </div>

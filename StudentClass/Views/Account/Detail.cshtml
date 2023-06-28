@@ -1,0 +1,35 @@
+﻿@model StudentClass.Application.ViewModels.AppUserViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "_layout";
+}
+<div class="container ">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis" asp-action="Index" asp-controller="Home">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="visually-hidden text-dark">Home</span>
+                </a>
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="w-50 box">
+    <h2>Profile</h2>
+    <dl class="row">
+        <dt class="col-sm-3">UserName:</dt>
+        <dd class="col-sm-9">@Model.UserName</dd>
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+        <dt class="col-sm-3">PhoneNumber:</dt>
+        <dd class="col-sm-9">
+            @Model.PhoneNumber
+        </dd>
+        <dt class="col-sm-3">Role:</dt>
+        <dd class="col-sm-9">
+            @Model.Role
+        </dd>
+    </dl>
+</div>

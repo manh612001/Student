@@ -1,8 +1,8 @@
-﻿@{
+﻿@model StudentClass.Application.ViewModels.StudentViewModel.Student
+@{
     ViewData["Title"] = "Add Student";
     Layout = "_layout";
 }
-@model StudentClass.ViewModels.AddStudentViewModel
 <div class="container ">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
@@ -52,10 +52,6 @@
             <input type="text" class="form-control" asp-for="Address">
             <span asp-validation-for="Address" class="text-danger"></span>
         </div>
-
-
-
-
 
         <div class="mt-2 d-flex justify-content-between">
             <div><a asp-action="Index" asp-controller="Student"><i class="fa-solid fa-arrow-left"></i> Back to Student list</a></div>

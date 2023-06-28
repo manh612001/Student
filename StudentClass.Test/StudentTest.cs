@@ -1,20 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using StudentClass.Interfaces;
-using StudentClass.Models;
-using StudentClass.Service;
-using StudentClass.ViewModels;
+using StudentClass.Application.Interfaces;
+using StudentClass.Application.ViewModels;
+
+using StudentClass.Infrastructure.Data;
+
+using StudentClass.Infrastructure.Services;
+
+
+
 
 namespace StudentClass.Test
 {
     [TestFixture]
     public class StudentTest
     {
-        private IStudentService _studentService;
         private DbContextOptions<DatabaseDbContext> _options;
         private DatabaseDbContext _context;
-        private AddStudentViewModel _addStudent;
-        private List<AddStudentViewModel> _listStudent;
+        private StudentViewModel.Student _student;
+        private List<StudentViewModel.Student> _listStudents;
+        private StudentService _studentService;
+       
         [SetUp]
         public void Setup()
         {
@@ -23,7 +30,7 @@ namespace StudentClass.Test
                 .Options;
             _context = new DatabaseDbContext(_options);
             _studentService = new StudentService(_context);
-            _addStudent = new AddStudentViewModel()
+            _student = new StudentViewModel.Student()
             {
                 Id = 1,
                 Name = "Test",
@@ -31,10 +38,10 @@ namespace StudentClass.Test
                 Address = "Hà Nội",
                 PhoneNumber = "1234567890",
             };
-            _listStudent = new List<AddStudentViewModel>()
+            _listStudents = new List<StudentViewModel.Student>()
             {
-                new AddStudentViewModel{ Id = 1,Name="Student 1",Address ="Hà Nội",PhoneNumber ="0123456789"},
-                new AddStudentViewModel{ Id = 2,Name="Student 2",Address ="Hà Nội",PhoneNumber ="0123456788"}
+                new StudentViewModel.Student{ Id = 1,Name="Student 1",Address ="Hà Nội",PhoneNumber ="0123456789"},
+                new StudentViewModel.Student{ Id = 2,Name="Student 2",Address ="Hà Nội",PhoneNumber ="0123456788"}
             };
         }
 
@@ -43,62 +50,57 @@ namespace StudentClass.Test
         public async Task TestAddStudentAsync()
         {
 
-            await _studentService.Add(_addStudent);
+            await _studentService.Add(_student);
 
             // Assert
-            var result = _context.students.FirstOrDefault(c => c.Id == _addStudent.Id);
+            var result = _context.Student.FirstOrDefault(c => c.Id == _student.Id);
             Assert.NotNull(result);
-            Assert.That(result.Name, Is.EqualTo(_addStudent.Name));
-            Assert.That(result.Dob, Is.EqualTo(_addStudent.Dob));
-            Assert.That(result.Address, Is.EqualTo(_addStudent.Address));
-
-
-
+            Assert.That(result.Name, Is.EqualTo(_student.Name));
+            Assert.That(result.Dob, Is.EqualTo(_student.Dob));
+            Assert.That(result.Address, Is.EqualTo(_student.Address));
         }
         [Test]
         public async Task GetById_Test()
         {
-            await _studentService.Add(_addStudent);
-            var result = await _studentService.GetById(_addStudent.Id);
+            await _studentService.Add(_student);
+            var result = await _studentService.GetById(_student.Id);
             Assert.NotNull(result);
-            Assert.That(result.Id, Is.EqualTo(_addStudent.Id));
-            Assert.That(result.Name, Is.EqualTo(_addStudent.Name));
-            Assert.That(result.Dob, Is.EqualTo(_addStudent.Dob));
-            Assert.That(result.Address, Is.EqualTo(_addStudent.Address));
+            Assert.That(result.Id, Is.EqualTo(_student.Id));
+            Assert.That(result.Name, Is.EqualTo(_student.Name));
+            Assert.That(result.Dob, Is.EqualTo(_student.Dob));
+            Assert.That(result.Address, Is.EqualTo(_student.Address));
         }
         [Test]
         public async Task GetAll_Test()
         {
-            foreach (var item in _listStudent)
+            foreach (var item in _listStudents)
             {
                 await _studentService.Add(item);
             }
             var result = await _studentService.GetAll();
-            Assert.True(result.Count == 2);
-            Assert.That(result[0].Id, Is.EqualTo(_listStudent[0].Id));
-            Assert.That(result[0].Name, Is.EqualTo(_listStudent[0].Name));
-            Assert.That(result[0].Dob, Is.EqualTo(_listStudent[0].Dob));
-            Assert.That(result[0].Address, Is.EqualTo(_listStudent[0].Address));
+            Assert.True(result.Count() == 2);
+            Assert.That(result[0].Id, Is.EqualTo(_listStudents[0].Id));
+            Assert.That(result[0].Name, Is.EqualTo(_listStudents[0].Name));
         }
         [Test]
         public async Task UpdateStudent_Test()
         {
-            await _studentService.Add(_addStudent);
+            await _studentService.Add(_student);
             // Act
-            _addStudent.Name = "Test";
-            var existingStudent = await _context.students.FindAsync(_addStudent.Id);
+            _student.Name = "Test";
+            var existingStudent = await _context.Student.FindAsync(_student.Id);
             if (existingStudent != null)
             {
                 _context.Entry(existingStudent).State = EntityState.Detached;
             }
-            await _studentService.Update(_addStudent);
+            await _studentService.Update(_student);
 
             // Assert
-                var result = await _context.students.FindAsync(_addStudent.Id);
-                Assert.NotNull(result);
-                Assert.That(result.Name, Is.EqualTo(_addStudent.Name));
-                Assert.That(result.Dob, Is.EqualTo(_addStudent.Dob));
-                Assert.That(result.Address, Is.EqualTo(_addStudent.Address));
+            var result = await _context.Student.FindAsync(_student.Id);
+            Assert.NotNull(result);
+            Assert.That(result.Name, Is.EqualTo(_student.Name));
+            Assert.That(result.Dob, Is.EqualTo(_student.Dob));
+            Assert.That(result.Address, Is.EqualTo(_student.Address));
         }
         [TearDown]
         public void TearDown()

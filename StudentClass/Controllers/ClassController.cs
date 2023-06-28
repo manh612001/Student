@@ -1,127 +1,140 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using StudentClass.Interfaces;
-using StudentClass.Models;
-using StudentClass.ViewModels;
+using StudentClass.Application.Interfaces;
+using StudentClass.Application.ViewModels;
+using StudentClass.Domain;
+using System.Net;
 
-namespace StudentClass.Controllers
+namespace StudentClass.MVC.Controllers
 {
+    [Authorize]
     public class ClassController : Controller
     {
-        private readonly ILogger<ClassController> _logger;
+        
         private readonly IClassService _classService;
         private readonly IStudentService _studentService;
-        public ClassController(ILogger<ClassController> logger,IClassService classService, IStudentService studentService)
+        private readonly ILogger<ClassController> _logger;
+        public ClassController(IClassService classService, IStudentService studentService, ILogger<ClassController> logger)
         {
-            _logger = logger;
             _classService = classService;
             _studentService = studentService;
+            _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _classService.GetAll());
-        }
-
-        public async Task<IActionResult> Add()
-        {
-            List<Student> students = await _studentService.GetAll();
-            SelectList selectLists = new SelectList(students, "Id", "Name");
-            ViewBag.SelectList = selectLists;
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Add(AddClassViewModel model)
+        public async Task<IActionResult> GetData(JqueryDatatableParam param)
+        {
+            var result = await _classService.GetAll();
+            var total = result.Count();
+            if (!string.IsNullOrEmpty(param.Search!.Value))
+            {
+                result = result.Where(x => x.Name!.ToLower().Contains(param.Search.Value.ToLower())).ToList();
+                total = result.Count();
+            }
+
+            if (param.Order != null && param.Order[0].Column == 0)
+            {
+                result = param.Order[0].Dir == "asc" ? result.OrderBy(c => c.Name).ToList() : result.OrderByDescending(c => c.Name).ToList();
+            }
+            if (param.Length != -1)
+            {
+                result = result.Skip(param.Start).Take(param.Length).ToList();
+            }    
+
+            return Json(new { draw = param.Draw, recordsTotal = total, recordsFiltered = total, data = result });
+        }
+        
+        public  async Task<IActionResult> Add()
+        {
+            return View(new ClassViewModel.CreateClass() { Students = await _studentService.GetAll()});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(ClassViewModel.CreateClass model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     await _classService.Add(model);
-
-                    TempData["alert"] = "alert-success";
-                    TempData["msg"] = "Add successfully";
+                    TempData["msg"] = "success! Add successfully";
                     return RedirectToAction("Add");
-
                 }
-                catch (Exception e)
-                {
-                    TempData["alert"] = "alert-danger";
-                    TempData["msg"] = e.Message;
-                    return View();
+                catch (Exception e) 
+                { 
+                    _logger.LogError(e.Message);
+                    return BadRequest();
                 }
-
-
-
             }
-            else
-            {
-                List<Student> students = await _studentService.GetAll();
-                SelectList selectLists = new SelectList(students, "Id", "Name");
-                ViewBag.SelectList = selectLists;
-                return View();
-            }
+            return View(new ClassViewModel.CreateClass() { Students = await _studentService.GetAll() });
         }
+
         [HttpGet]
-        public async Task<IActionResult> Update(int? id)
+        public async Task<IActionResult> Update(int id)
         {
-            List<Student> students = await _studentService.GetAll();
-            SelectList selectLists = new SelectList(students, "Id", "Name");
-            ViewBag.SelectList = selectLists;
-            return View(await _classService.GetById(id));
+            try
+            {
+                return View(await _classService.GetById(id));
+            }
+            catch (Exception e) 
+            {
+                _logger.LogError(e.Message);
+                return NotFound();
+            }   
         }
+
         [HttpPost]
-        public async Task<IActionResult> Update(AddClassViewModel vm)
+        public async Task<IActionResult> Update(ClassViewModel.ClassDetail model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _classService.Update(vm);
-                    TempData["alert"] = "alert-success";
-                    TempData["msg"] = "Update successfully";
+                    await _classService.Update(model);
+                    TempData["msg"] = "success! Update successfully";
                     return RedirectToAction("Index");
                 }
-                catch (Exception e)
-                {
-                    TempData["alert"] = "alert-danger";
-                    TempData["msg"] = e.Message;
-                    return View();
+                catch (Exception e) { 
+                    _logger.LogError(e.Message); 
+                    return BadRequest();
                 }
-
-
             }
-            else
-            {
-                TempData["alert"] = "alert-danger";
-                TempData["msg"] = "Error";
-                return View();
-            }
+            return View();
         }
-        public async Task<IActionResult> Delete(int? id)
-        {
-            return View(await _classService.GetById(id));
-        }
-        [HttpPost]
-        public async Task<IActionResult> DeleteCF(ListClassViewModel vm)
+
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await _classService.Delete(vm.Id);
-                TempData["alert"] = "alert-success";
-                TempData["msg"] = "Delete successfully";
-                return RedirectToAction("Index");
+                return View(await _classService.GetById(id));
             }
-            catch (Exception e)
-            {
-                TempData["alert"] = "alert-danger";
-                TempData["msg"] = e.Message;
-                return RedirectToAction("Index");
-                
+            catch (Exception e) 
+            { 
+                _logger.LogError(e.Message); 
+                return BadRequest(); 
             }
-            
-
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteCF(ClassViewModel.ClassDetail model)
+        {
+            try
+            {
+                await _classService.Delete(model.Id);
+                TempData["msg"] = "success! Delete successfully";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e) 
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(); 
+            }
+        }
     }
 }

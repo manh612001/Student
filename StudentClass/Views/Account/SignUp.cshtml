@@ -1,4 +1,4 @@
-﻿@model StudentClass.ViewModels.RegistrationViewModel
+﻿@model StudentClass.Application.ViewModels.SignUpViewModel
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +18,7 @@
         @if (TempData["alert"] != null)
         {
             <div class="alert @TempData["alert"]">
-                @TempData["msg"]
+                TempData["msg"]
             </div>
         }
     </div>
@@ -30,7 +30,7 @@
                 <form asp-action="SignUp" asp-controller="Account" method="post">
 
                     <h1 class="h3 mb-3 fw-normal">Registration</h1>
-
+                    <input type="hidden" asp-for="Role" value="User"/>
                     <div class="form-floating mb-2">
                         <input asp-for="UserName" class="form-control" id="floatingInput" placeholder="UserName" />
                         <label for="floatingInput">UserName:<span style="color:red;">*</span></label>
